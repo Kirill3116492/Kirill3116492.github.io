@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на свадьбу</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+    <style>
+        /* CSS стили */
+        :root {
+            --primary-color: #d4a373;
+            --secondary-color: #f8f3e6;
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Видео-фон */
+        .video-bg {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #bgVideo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+        }
+
+        .hero-content h1 {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .date {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .scroll-hint {
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        /* Секции */
+        section {
+            padding: 80px 0;
+        }
+
+        h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--text-dark);
+        }
+
+        /* Таймер */
+        .timer-section {
+            background-color: var(--secondary-color);
+            color: var(--text-dark);
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .timer-block {
+            text-align: center;
+        }
+
+        .timer-block span {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* Галерея */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.03);
+        }
+
+        /* Форма RSVP */
+        .rsvp-section {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        #rsvpForm {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        #rsvpForm input,
+        #rsvpForm textarea {
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        #rsvpForm textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        #rsvpForm button {
+            padding: 15px;
+            background-color: var(--text-dark);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s;
+        }
+
+        #rsvpForm button:hover {
+            background-color: #222;
+        }
+
+        /* Карта */
+        .map-section {
+            background-color: var(--secondary-color);
+            color: var(--text-dark);
+        }
+
+        .map {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Аудио */
+        .music-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 100;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            
+            .date {
+                font-size: 1.5rem;
+            }
+            
+            .timer {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Видео-фон -->
+    <div class="video-bg" data-aos="fade">
+        <video autoplay muted loop id="bgVideo">
+            <!-- Замените видео на своё -->
+            <source src="https://example.com/wedding-video.mp4" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1 data-aos="fade-up">Елена & Алексей</h1>
+            <p class="date" data-aos="fade-up" data-aos-delay="200">15 Июня 2024</p>
+            <div class="scroll-hint" data-aos="fade-up" data-aos-delay="400">↓</div>
+        </div>
+    </div>
+
+    <!-- Таймер -->
+    <section class="timer-section">
+        <div class="container">
+            <h2 data-aos="fade-up">До нашего праздника осталось:</h2>
+            <div class="timer" data-aos="fade-up">
+                <div class="timer-block">
+                    <span id="days">00</span>
+                    <p>дней</p>
+                </div>
+                <div class="timer-block">
+                    <span id="hours">00</span>
+                    <p>часов</p>
+                </div>
+                <div class="timer-block">
+                    <span id="minutes">00</span>
+                    <p>минут</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Галерея -->
+    <section class="gallery-section">
+        <div class="container">
+            <h2 data-aos="fade-up">Наши моменты</h2>
+            <div class="gallery">
+                <img src="https://via.placeholder.com/600x400" alt="Фото 1" data-aos="zoom-in">
+                <img src="https://via.placeholder.com/600x400" alt="Фото 2" data-aos="zoom-in" data-aos-delay="100">
+                <img src="https://via.placeholder.com/600x400" alt="Фото 3" data-aos="zoom-in" data-aos-delay="200">
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма подтверждения -->
+    <section class="rsvp-section">
+        <div class="container">
+            <h2 data-aos="fade-up">Подтвердите присутствие</h2>
+            <form id="rsvpForm" data-aos="fade-up">
+                <input type="text" placeholder="Ваше имя" required>
+                <input type="email" placeholder="Ваш email" required>
+                <textarea placeholder="Ваши пожелания"></textarea>
+                <button type="submit">Подтвердить</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Карта -->
+    <section class="map-section">
+        <div class="container">
+            <h2 data-aos="fade-up">Место проведения</h2>
+            <div class="map" data-aos="fade-up">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.372951144775!2d37.61729931593048!3d55.75169998055309!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46b54a5a738fa419%3A0x7c347d506f52311f!2z0JzQvtGB0LrQvtCy0YHQutC40Lkg0JrRgNC10LzQu9GM!5e0!3m2!1sru!2sru!4v1620000000000!5m2!1sru!2sru" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Аудио -->
+    <audio autoplay loop id="bgMusic">
+        <source src="https://example.com/music.mp3" type="audio/mpeg">
+    </audio>
+    <button id="musicToggle" class="music-btn">🔊</button>
+
+    <!-- Скрипты -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Инициализация анимаций при скролле
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // Таймер обратного отсчёта
+        function updateTimer() {
+            const weddingDate = new Date("2024-06-15T18:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById("days").textContent = days.toString().padStart(2, "0");
+            document.getElementById("hours").textContent = hours.toString().padStart(2, "0");
+            document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
+        }
+
+        setInterval(updateTimer, 1000);
+
+        // Параллакс-эффект для фона
+        window.addEventListener("scroll", () => {
+            const scrollPosition = window.scrollY;
+            const videoBg = document.querySelector(".video-bg");
+            videoBg.style.transform = `translateY(${scrollPosition * 0.4}px)`;
+        });
+
+        // Управление музыкой
+        const bgMusic = document.getElementById("bgMusic");
+        const musicToggle = document.getElementById("musicToggle");
+        let isMusicPlaying = false;
+
+        document.body.addEventListener("click", () => {
+            if (!isMusicPlaying) {
+                bgMusic.play();
+                isMusicPlaying = true;
+                musicToggle.textContent = "🔊";
+            }
+        });
+
+        musicToggle.addEventListener("click", () => {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicToggle.textContent = "🔇";
+            } else {
+                bgMusic.play();
+                musicToggle.textContent = "🔊";
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // Обработка формы
+        document.getElementById("rsvpForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            alert("Спасибо за подтверждение! Мы рады будем видеть вас на нашем празднике.");
+            this.reset();
+        });
+    </script>
+</body>
+</html>
